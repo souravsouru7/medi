@@ -1,19 +1,43 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
 const sequelize = require('./config/database');
-const authRoutes = require('./routes/userRoutes');
+const models = require('./models');
+
+// Import routes
+const authRoutes = require('./routes/authRoutes');
 const medicineRoutes = require('./routes/medicineRoutes');
+const logRoutes = require('./routes/logRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
-app.use(bodyParser.json());
+
+// Middleware
 app.use(cors());
+app.use(express.json());
 
-app.use('/auth', authRoutes);
-app.use('/medicines', medicineRoutes);
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/medicines', medicineRoutes);
+app.use('/api/logs', logRoutes);
+app.use('/api/admin', adminRoutes);
 
-sequelize.sync().then(() => console.log('Database synced')).catch((err) => console.log(err));
-
+// Database sync and server start
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+async function startServer() {
+  try {
+    // Sync database with { alter: true } only in development
+    await sequelize.sync({ alter: true });
+    console.log('Database synced successfully');
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+      console.log('Admin Secret:', process.env.ADMIN_SECRET); 
+    });
+  } catch (error) {
+    console.error('Unable to start server:', error);
+  }
+}
+
+startServer();
