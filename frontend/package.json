@@ -12,6 +12,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.1",
     "axios": "^1.7.9",
+    "date-fns": "^4.1.0",
     "medi": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

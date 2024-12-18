@@ -1,8 +1,19 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './AdminAside.css';
 
 const AdminAside = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear authentication tokens and user role from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+
+    // Redirect to login page
+    navigate('/', { replace: true });
+  };
+
   return (
     <aside className="admin-aside">
       <div className="admin-aside-header">
@@ -11,28 +22,22 @@ const AdminAside = () => {
       <nav className="admin-nav">
         <ul>
           <li>
-            <NavLink to="/admin/dashboard" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink 
+              to="/admin/dashboard" 
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
               <i className="fas fa-home"></i>
               Dashboard
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin/patients" className={({ isActive }) => isActive ? 'active' : ''}>
-              <i className="fas fa-users"></i>
-              Patients
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/medicines" className={({ isActive }) => isActive ? 'active' : ''}>
-              <i className="fas fa-pills"></i>
-              Medicines
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/logs" className={({ isActive }) => isActive ? 'active' : ''}>
-              <i className="fas fa-clipboard-list"></i>
-              Logs
-            </NavLink>
+            <button 
+              onClick={handleLogout}
+              className="logout-button w-full text-left py-2 px-4 hover:bg-red-50 hover:text-red-700"
+            >
+              <i className="fas fa-sign-out-alt mr-2"></i>
+              Logout
+            </button>
           </li>
         </ul>
       </nav>

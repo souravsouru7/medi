@@ -81,3 +81,22 @@
     padding: 15px 0;
   }
 }
+.admin-aside .logout-button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 15px;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.admin-aside .logout-button:hover {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.admin-aside .logout-button i {
+  margin-right: 10px;
+}

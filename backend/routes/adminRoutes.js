@@ -8,15 +8,11 @@ router.use(authenticateToken, isAdmin);
 
 // Patient Management
 router.get('/patients', adminController.getAllPatients);
-router.get('/patients/:id', adminController.getPatientById);
-router.put('/patients/:id', adminController.updatePatient);
-router.delete('/patients/:id', adminController.deletePatient);
+
 
 // Medicine Management
 router.get('/medicines', adminController.getAllMedicines);
-router.post('/medicines', adminController.createMedicine);
-router.put('/medicines/:id', adminController.updateMedicine);
-router.delete('/medicines/:id', adminController.deleteMedicine);
+
 
 // Logs Management
 router.get('/logs', adminController.getAllLogs);
