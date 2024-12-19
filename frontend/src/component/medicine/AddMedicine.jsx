@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../services/api';
 import Header from '../common/Header';
-import './AddMedicine.css';
+import { PlusCircle } from 'lucide-react';
 
 const AddMedicine = () => {
   const navigate = useNavigate();
@@ -38,19 +38,29 @@ const AddMedicine = () => {
   };
 
   return (
-    <div className="add-medicine-container">
+    <div className="min-h-screen bg-gray-100">
       <Header />
-      <div className="add-medicine-content">
-        <div className="add-medicine-card">
-          <h2><i className="fas fa-pills"></i> Add New Medicine</h2>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-8">
+          <div className="flex items-center justify-center mb-6">
+            <PlusCircle className="w-10 h-10 text-blue-500 mr-3" />
+            <h2 className="text-2xl font-bold text-gray-800">Add New Medicine</h2>
+          </div>
+          
           {error && (
-            <div className="error-message">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
               {error}
             </div>
           )}
-          <form onSubmit={handleAddMedicine}>
-            <div className="form-group">
-              <label htmlFor="name">Medicine Name</label>
+          
+          <form onSubmit={handleAddMedicine} className="space-y-4">
+            <div>
+              <label 
+                htmlFor="name" 
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Medicine Name
+              </label>
               <input
                 id="name"
                 name="name"
@@ -59,11 +69,17 @@ const AddMedicine = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="dosage">Dosage</label>
+            <div>
+              <label 
+                htmlFor="dosage" 
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Dosage
+              </label>
               <input
                 id="dosage"
                 name="dosage"
@@ -72,11 +88,17 @@ const AddMedicine = () => {
                 value={formData.dosage}
                 onChange={handleChange}
                 required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="schedule_time">Schedule Time</label>
+            <div>
+              <label 
+                htmlFor="schedule_time" 
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Schedule Time
+              </label>
               <input
                 id="schedule_time"
                 name="schedule_time"
@@ -84,17 +106,24 @@ const AddMedicine = () => {
                 value={formData.schedule_time}
                 onChange={handleChange}
                 required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="frequency">Frequency</label>
+            <div>
+              <label 
+                htmlFor="frequency" 
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Frequency
+              </label>
               <select
                 id="frequency"
                 name="frequency"
                 value={formData.frequency}
                 onChange={handleChange}
                 required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="daily">Daily</option>
                 <option value="weekly">Weekly</option>
@@ -102,14 +131,17 @@ const AddMedicine = () => {
               </select>
             </div>
 
-            <div className="form-actions">
-              <button type="submit" className="btn-primary">
+            <div className="flex space-x-4 pt-4">
+              <button 
+                type="submit" 
+                className="flex-1 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+              >
                 Add Medicine
               </button>
               <button
                 type="button"
-                className="btn-secondary"
                 onClick={() => navigate('/medicines')}
+                className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400 transition-colors"
               >
                 Cancel
               </button>

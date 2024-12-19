@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import API from '../../services/api';
 import { FaUserMd } from 'react-icons/fa';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -12,19 +13,27 @@ const Login = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userRole = localStorage.getItem('userRole');
+    if (token) {
+      navigate(userRole === 'admin' ? '/admin/dashboard' : '/', { replace: true });
+    }
+  }, [navigate]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
     if (error) setError('');
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form submission
-    if (isLoading) return; // Prevent multiple submissions
+    e.preventDefault();
+    if (isLoading) return;
 
     setIsLoading(true);
     setError('');
@@ -40,18 +49,17 @@ const Login = () => {
       // Store user data
       localStorage.setItem('token', token);
       localStorage.setItem('userRole', user.role);
-      localStorage.setItem('userName', user.name);
+      localStorage.setItem('userName', user.first_name);
       localStorage.setItem('userId', user.id);
 
-      // Navigate based on role
-      if (user.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/medicines');
-      }
+      // Get the redirect path from location state or use default based on role
+      const from = location.state?.from?.pathname || (user.role === 'admin' ? '/admin/dashboard' : '/');
+      navigate(from, { replace: true });
+      
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed. Please try again.';
       setError(errorMessage);
+    } finally {
       setIsLoading(false);
     }
   };
