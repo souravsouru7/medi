@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3000/api', // Backend server is running on port 3000 and /api prefix
+  baseURL: 'https://modernbakery.shop/api', // Backend server is running on port 3000 and /api prefix
   headers: {
     'Content-Type': 'application/json'
   }
