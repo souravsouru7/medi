@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import API from '../../services/api';
 import { FaUserPlus } from 'react-icons/fa';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -38,16 +39,8 @@ const Register = () => {
         password: formData.password
       });
 
-      const { token, user } = response.data;
-      
-      // Store user data in localStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('userRole', user.role);
-      localStorage.setItem('userName', `${user.first_name} ${user.last_name}`);
-      localStorage.setItem('userId', user.id);
 
-      // Redirect to medicines page
-      window.location.href = '/medicines';
+      navigate('/login');
     } catch (error) {
       console.error(error);
       setError(error.response?.data?.message || 'Registration failed. Please try again.');
