@@ -12,7 +12,7 @@ const Login = () => {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showAdminCreds, setShowAdminCreds] = useState(false);
+  const [showCredentials, setShowCredentials] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -64,11 +64,18 @@ const Login = () => {
     }
   };
 
-  const fillAdminCredentials = () => {
-    setFormData({
-      email: 'admin@gmail.com',
-      password: 'admin123'
-    });
+  const fillCredentials = (type) => {
+    if (type === 'admin') {
+      setFormData({
+        email: 'admin@gmail.com',
+        password: 'admin123'
+      });
+    } else if (type === 'user') {
+      setFormData({
+        email: 'so906165@gmail.com',
+        password: 'souru123'
+      });
+    }
   };
 
   return (
@@ -86,12 +93,22 @@ const Login = () => {
           </div>
         )}
 
-        {showAdminCreds && (
-          <div className="bg-blue-50 border border-blue-200 rounded-md p-4 my-4">
-            <p className="text-blue-700 text-sm">
-              <strong>Admin Email:</strong> admin@gmail.com<br />
-              <strong>Password:</strong> admin123
-            </p>
+        {showCredentials && (
+          <div className="space-y-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+              <p className="text-blue-700 text-sm font-medium mb-2">Admin Credentials:</p>
+              <p className="text-blue-700 text-sm">
+                <strong>Email:</strong> admin@gmail.com<br />
+                <strong>Password:</strong> admin123
+              </p>
+            </div>
+            <div className="bg-green-50 border border-green-200 rounded-md p-4">
+              <p className="text-green-700 text-sm font-medium mb-2">User Credentials:</p>
+              <p className="text-green-700 text-sm">
+                <strong>Email:</strong> so906165@gmail.com<br />
+                <strong>Password:</strong> souru123
+              </p>
+            </div>
           </div>
         )}
 
@@ -140,21 +157,31 @@ const Login = () => {
               {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
 
-            <div className="flex space-x-2">
+            <div className="flex flex-col space-y-2">
               <button
                 type="button"
-                onClick={() => setShowAdminCreds(!showAdminCreds)}
-                className="flex-1 py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                onClick={() => setShowCredentials(!showCredentials)}
+                className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                {showAdminCreds ? 'Hide Admin Info' : 'Show Admin Info'}
+                {showCredentials ? 'Hide Credentials' : 'Show Credentials'}
               </button>
-              <button
-                type="button"
-                onClick={fillAdminCredentials}
-                className="flex-1 py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Fill Admin Credentials
-              </button>
+              
+              <div className="flex space-x-2">
+                <button
+                  type="button"
+                  onClick={() => fillCredentials('admin')}
+                  className="flex-1 py-2 px-4 border border-blue-300 rounded-md text-sm font-medium text-blue-700 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Fill Admin Login
+                </button>
+                <button
+                  type="button"
+                  onClick={() => fillCredentials('user')}
+                  className="flex-1 py-2 px-4 border border-green-300 rounded-md text-sm font-medium text-green-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                >
+                  Fill User Login
+                </button>
+              </div>
             </div>
           </div>
         </form>
