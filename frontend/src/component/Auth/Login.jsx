@@ -12,6 +12,7 @@ const Login = () => {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showAdminCreds, setShowAdminCreds] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -52,7 +53,6 @@ const Login = () => {
       localStorage.setItem('userName', user.first_name);
       localStorage.setItem('userId', user.id);
 
-      // Get the redirect path from location state or use default based on role
       const from = location.state?.from?.pathname || (user.role === 'admin' ? '/admin/dashboard' : '/');
       navigate(from, { replace: true });
       
@@ -62,6 +62,13 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const fillAdminCredentials = () => {
+    setFormData({
+      email: 'admin@gmail.com',
+      password: 'admin123'
+    });
   };
 
   return (
@@ -76,6 +83,15 @@ const Login = () => {
         {error && (
           <div className="bg-red-50 border-l-4 border-red-400 p-4 my-4">
             <p className="text-red-700">{error}</p>
+          </div>
+        )}
+
+        {showAdminCreds && (
+          <div className="bg-blue-50 border border-blue-200 rounded-md p-4 my-4">
+            <p className="text-blue-700 text-sm">
+              <strong>Admin Email:</strong> admin@gmail.com<br />
+              <strong>Password:</strong> admin123
+            </p>
           </div>
         )}
 
@@ -113,7 +129,7 @@ const Login = () => {
             </div>
           </div>
 
-          <div>
+          <div className="flex flex-col space-y-4">
             <button
               type="submit"
               disabled={isLoading}
@@ -123,8 +139,26 @@ const Login = () => {
             >
               {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
+
+            <div className="flex space-x-2">
+              <button
+                type="button"
+                onClick={() => setShowAdminCreds(!showAdminCreds)}
+                className="flex-1 py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                {showAdminCreds ? 'Hide Admin Info' : 'Show Admin Info'}
+              </button>
+              <button
+                type="button"
+                onClick={fillAdminCredentials}
+                className="flex-1 py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Fill Admin Credentials
+              </button>
+            </div>
           </div>
         </form>
+
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             Don't have an account?{' '}
